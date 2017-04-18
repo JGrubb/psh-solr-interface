@@ -8,3 +8,5 @@ web:
     '/':
       root: web
       passthru: '/index.php'
+mounts:
+  "log": "shared:files/log"
