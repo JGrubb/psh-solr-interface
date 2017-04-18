@@ -15,13 +15,24 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
 $config = new Platformsh\ConfigReader\Config();
-$solr = $config->relationships['solr'][0];
-$solr_url = "http://{$solr['host']}:{$solr['port']}/{$solr['path']}";
+if ($config->isAvailable()) {
+    $solr = $config->relationships['solr'][0];
+    $solr_url = "http://{$solr['host']}:{$solr['port']}/{$solr['path']}";
+} else {
+    $solr_url = 'http://localhost:30000/solr';
+}
+
 $app = new Application();
 
 $app->get('/solr/admin/{action}', function(Request $request, $action) use ($solr_url) {
     $client = new GuzzleHttp\Client();
     $response = $client->get("$solr_url/admin/$action?" . $request->getQueryString(), []);
+    return $response->getBody();
+});
+
+$app->get('/solr/{action}', function(Request $request, $action) use ($solr_url) {
+    $client = new GuzzleHttp\Client();
+    $response = $client->get("$solr_url/$action?" . $request->getQueryString(), []);
     return $response->getBody();
 });
 
