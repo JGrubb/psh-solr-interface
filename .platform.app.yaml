@@ -10,3 +10,6 @@ web:
       passthru: '/index.php'
 mounts:
   "log": "shared:files/log"
+hooks:
+  deploy:
+    touch log/update.log
