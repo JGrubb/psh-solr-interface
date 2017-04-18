@@ -16,7 +16,7 @@ use Monolog\Handler\StreamHandler;
 
 $config = new Platformsh\ConfigReader\Config();
 $solr = $config->relationships['solr'][0];
-$solr_url = "http://{$solr['host']}:{$sole['port']}/{$solr['path']}";
+$solr_url = "http://{$solr['host']}:{$solr['port']}/{$solr['path']}";
 $app = new Application();
 
 $app->get('/solr/admin/{action}', function(Request $request, $action) use ($solr_url) {
