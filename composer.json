@@ -1,5 +1,6 @@
 {
     "require": {
-        "silex/silex": "^2.0"
+        "silex/silex": "^2.0",
+        "platformsh/config-reader": "^0.0.1"
     }
 }

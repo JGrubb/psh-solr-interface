@@ -1,0 +1,9 @@
+name: solr-app
+disk: 1024
+relationships:
+  "solr": "solrservice:solr"
+web:
+  locations:
+    '/':
+      root: web
+      passthru: '/index.php'

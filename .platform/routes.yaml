@@ -1,0 +1,6 @@
+https://www.{default}:
+  type: upstream
+  upstream: solr-app
+https://{default}:
+  type: redirect
+  to: https://www.{default}

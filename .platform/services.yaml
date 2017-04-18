@@ -1,0 +1,3 @@
+solrservice:
+  type: solr:4.10
+  disk: 4096
