@@ -14,22 +14,25 @@ use Silex\Application;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
+$config = new Platformsh\ConfigReader\Config();
+$solr = $config->relationships['solr'][0];
+$solr_url = "http://{$solr['host']}:{$sole['port']}/{$solr['path']}";
 $app = new Application();
 
-$app->get('/solr/admin/{action}', function(Request $request, $action) {
+$app->get('/solr/admin/{action}', function(Request $request, $action) use ($solr_url) {
     $client = new GuzzleHttp\Client();
-    $response = $client->get("http://localhost:30000/solr/admin/$action?" . $request->getQueryString(), []);
+    $response = $client->get("$solr_url/admin/$action?" . $request->getQueryString(), []);
     return $response->getBody();
 });
 
-$app->post('/solr/update', function(Request $request) {
+$app->post('/solr/update', function(Request $request) use ($solr_url) {
     $log = new Logger('update');
     $log->pushHandler(new StreamHandler(realpath(__DIR__ . '/../log/update.log'), Logger::INFO));
     $client = new GuzzleHttp\Client();
 
     try {
         $response = $client->request('POST',
-            "http://localhost:30000/solr/update?wt=json",
+            "$solr_url/update?" . $request->getQueryString(),
             [
                 'headers' => $request->headers->all(),
                 'body' => $request->getContent()
