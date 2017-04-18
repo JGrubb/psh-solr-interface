@@ -1,5 +1,6 @@
 name: solr-app
 disk: 1024
+type: php:7.0
 relationships:
   "solr": "solrservice:solr"
 web:
