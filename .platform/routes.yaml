@@ -4,3 +4,6 @@ https://www.{default}:
 https://{default}:
   type: redirect
   to: https://www.{default}
+https://solr.{default}:
+  type: upstream
+  upstream: solrservice:http
